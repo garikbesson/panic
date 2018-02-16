@@ -7,7 +7,7 @@
             <div class="field">
                 <label for="email">E-mail</label>
                 <div class="control">
-                    <input type="email" id="email" class="input" placeholder="gavin.belson@hooli.com" v-model="email" required>
+                    <input type="email" id="email" class="input" placeholder="e.g. igorbessonov.it@gmail.com" v-model="email" required>
                 </div>
             </div>
             <div class="field">

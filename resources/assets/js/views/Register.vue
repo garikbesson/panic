@@ -28,6 +28,17 @@
                 </div>
                 <span class="help-block" v-if="error && response.password">{{ response.password }}</span>
             </div> 
+            <div class="field">
+                <label class="label" for="role">Choose your role</label>
+                <div class="control">
+                    <div class="select">
+                        <select id="role" v-model="role">
+                            <option>Client</option>
+                            <option>Operator</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
             <div class="control">
                 <button type="submit" class="button is-primary">Submit</button>
             </div>
@@ -47,13 +58,14 @@ export default {
             password: null,
             success: false,
             error: false,
-            response: null
+            response: null,
+            role: 'Client'
         }
     },
     methods: {
         register(event) {
             event.preventDefault()
-            auth.register(this, this.name, this.email, this.password)
+            auth.register(this, this.name, this.email, this.password, this.role)
         }
     }
 }

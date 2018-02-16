@@ -16,6 +16,7 @@ class AuthController extends Controller
         User::create([
             'name' => $request->json('name'),
             'email' => $request->json('email'),
+            'role' => $request->json('role'),
             'password' => bcrypt($request->json('password')),
         ]);
     }
@@ -38,6 +39,7 @@ class AuthController extends Controller
             $data = [];
             $meta = [];
             $data['name'] = $request->user()->name;
+            $data['role'] = $request->user()->role;
             $meta['token'] = $token;
             return response()->json([
                 'data' => $data,

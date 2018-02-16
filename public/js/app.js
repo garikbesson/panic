@@ -197,11 +197,12 @@ module.exports = function normalizeComponent (
             });
         }
     },
-    register: function register(context, name, email, password) {
+    register: function register(context, name, email, password, role) {
         Vue.http.post('api/register', {
             name: name,
             email: email,
-            password: password
+            password: password,
+            role: role
         }).then(function (response) {
             context.success = true;
         }, function (response) {
@@ -16220,6 +16221,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 console.log('register');
@@ -16231,14 +16243,15 @@ console.log('register');
             password: null,
             success: false,
             error: false,
-            response: null
+            response: null,
+            role: 'Client'
         };
     },
 
     methods: {
         register: function register(event) {
             event.preventDefault();
-            __WEBPACK_IMPORTED_MODULE_0__auth__["a" /* default */].register(this, this.name, this.email, this.password);
+            __WEBPACK_IMPORTED_MODULE_0__auth__["a" /* default */].register(this, this.name, this.email, this.password, this.role);
         }
     }
 });
@@ -16407,6 +16420,51 @@ var render = function() {
               ]
             ),
             _vm._v(" "),
+            _c("div", { staticClass: "field" }, [
+              _c("label", { staticClass: "label", attrs: { for: "role" } }, [
+                _vm._v("Choose your role")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "control" }, [
+                _c("div", { staticClass: "select" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.role,
+                          expression: "role"
+                        }
+                      ],
+                      attrs: { id: "role" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.role = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        }
+                      }
+                    },
+                    [
+                      _c("option", [_vm._v("Client")]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("Operator")])
+                    ]
+                  )
+                ])
+              ])
+            ]),
+            _vm._v(" "),
             _vm._m(0)
           ]
         )
@@ -16522,7 +16580,7 @@ var render = function() {
             attrs: {
               type: "email",
               id: "email",
-              placeholder: "gavin.belson@hooli.com",
+              placeholder: "e.g. igorbessonov.it@gmail.com",
               required: ""
             },
             domProps: { value: _vm.email },

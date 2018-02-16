@@ -17,13 +17,14 @@ export default {
             })
         }
     },
-    register(context, name, email, password) {
+    register(context, name, email, password, role) {
         Vue.http.post(
             'api/register',
             {
                 name: name,
                 email: email,
-                password: password
+                password: password,
+                role: role
             }
         ).then(response => {
             context.success = true
