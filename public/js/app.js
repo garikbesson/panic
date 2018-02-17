@@ -15984,7 +15984,31 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth_js__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth__ = __webpack_require__(1);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -16008,19 +16032,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
-            auth: __WEBPACK_IMPORTED_MODULE_0__auth_js__["a" /* default */]
+            type: 'General questions',
+            message: null,
+            success: false,
+            error: false,
+            response: null
         };
     },
 
     methods: {
-        signout: function signout() {
-            __WEBPACK_IMPORTED_MODULE_0__auth_js__["a" /* default */].signout();
+        sendRequest: function sendRequest(event) {
+            var _this = this;
+
+            event.preventDefault();
+            Vue.http.post('api/request', {
+                type: this.type,
+                message: this.message,
+                author: __WEBPACK_IMPORTED_MODULE_0__auth__["a" /* default */].user.profile.name
+            }).then(function (response) {
+                _this.success = true;
+            }, function (response) {
+                _this.response = response.data;
+                _this.error = true;
+            });
         }
-    },
-    mounted: function mounted() {
-        this.$nextTick(function () {
-            __WEBPACK_IMPORTED_MODULE_0__auth_js__["a" /* default */].check();
-        });
     }
 });
 
@@ -16032,29 +16067,131 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _vm._m(0)
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+        _c("div", { staticClass: "panel panel-default" }, [
+          _c("div", { staticClass: "panel-heading" }, [
+            _vm.success
+              ? _c("span", [
+                  _vm._v("Thanks for your request! Please wait for the answer.")
+                ])
+              : _c("span", [_vm._v("Please fill in the request form")])
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "panel-body" }, [
+            _c(
+              "form",
+              {
+                attrs: { autocomplete: "off" },
+                on: { submit: _vm.sendRequest }
+              },
+              [
+                _c("div", { staticClass: "field" }, [
+                  _c(
+                    "label",
+                    { staticClass: "label", attrs: { for: "type" } },
+                    [_vm._v("Choose request type")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control" }, [
+                    _c("div", { staticClass: "select" }, [
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.type,
+                              expression: "type"
+                            }
+                          ],
+                          attrs: { id: "type" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.type = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        [
+                          _c("option", [_vm._v("General questions")]),
+                          _vm._v(" "),
+                          _c("option", [_vm._v("Technical questions")]),
+                          _vm._v(" "),
+                          _c("option", [_vm._v("Suggestions")])
+                        ]
+                      )
+                    ])
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "field" }, [
+                  _c(
+                    "label",
+                    { staticClass: "label", attrs: { for: "message" } },
+                    [_vm._v("Message")]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "control" }, [
+                    _c("textarea", {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.message,
+                          expression: "message"
+                        }
+                      ],
+                      staticClass: "textarea",
+                      attrs: {
+                        id: "message",
+                        placeholder: "Please type your message",
+                        maxlength: "300"
+                      },
+                      domProps: { value: _vm.message },
+                      on: {
+                        input: function($event) {
+                          if ($event.target.composing) {
+                            return
+                          }
+                          _vm.message = $event.target.value
+                        }
+                      }
+                    })
+                  ])
+                ]),
+                _vm._v(" "),
+                _vm._m(0)
+              ]
+            )
+          ])
+        ])
+      ])
+    ])
+  ])
 }
 var staticRenderFns = [
   function() {
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
-          _c("div", { staticClass: "panel panel-default" }, [
-            _c("div", { staticClass: "panel-heading" }, [
-              _vm._v("Request Form")
-            ]),
-            _vm._v(" "),
-            _c("div", { staticClass: "panel-body" }, [
-              _vm._v(
-                "\n                    I'm an example component!\n                "
-              )
-            ])
-          ])
-        ])
-      ])
+    return _c("div", { staticClass: "control" }, [
+      _c(
+        "button",
+        { staticClass: "button is-primary", attrs: { type: "submit" } },
+        [_vm._v("Submit")]
+      )
     ])
   }
 ]
@@ -16194,7 +16331,6 @@ if (false) {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth__ = __webpack_require__(1);
-//
 //
 //
 //
@@ -16715,7 +16851,6 @@ var Component = normalizeComponent(
 )
 Component.options.__file = "resources/assets/js/views/App.vue"
 
-
 /* hot reload */
 if (false) {(function () {
   var hotAPI = require("vue-hot-reload-api")
@@ -17129,7 +17264,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Signin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Signin_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Register_vue__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Register_vue__);
-//
 //
 //
 //

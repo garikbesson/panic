@@ -31,6 +31,9 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/user', [
             'uses' => 'UserController@index',
         ]);
+        Route::post('/request', [
+            'uses' => 'RequestController@create',
+        ]);
     });
 
 });

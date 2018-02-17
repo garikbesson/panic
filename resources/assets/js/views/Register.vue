@@ -42,7 +42,6 @@
             <div class="control">
                 <button type="submit" class="button is-primary">Submit</button>
             </div>
-            <!-- <button type="submit" class="btn btn-default">Submit</button> -->
         </form>
     </div>
 </template>
