@@ -50,9 +50,9 @@
         <div class="hero-foot">
             <nav class="tabs is-boxed is-fullwidth">
                 <div class="container">
-                    <ul>
-                        <router-link tag="li" to="/" exact>
-                            <a>Home</a>
+                    <ul v-if="auth.user.profile.role === 'Client'">
+                        <router-link tag="li" to="/request_form" exact>
+                            <a>Request Form</a>
                         </router-link>
 
                         <router-link tag="li" to="/archive">
@@ -65,12 +65,12 @@
         </section>
         <section class="section">
             <div class="container">
-                <router-view></router-view>    
+                <router-view></router-view>
+                <h1 class="title is-1"  v-if="!auth.user.authenticated">Please log in</h1>    
             </div>
         </section>
     </div>
 </template>
-// <router-link v-bind:to="'/'">Home</router-link>
 <script>
 import auth from '../auth.js';
 import signin from './Signin.vue';
@@ -99,3 +99,9 @@ export default {
         }
 }
 </script>
+
+<style scoped>
+.title {
+ text-align: center;
+} 
+</style>

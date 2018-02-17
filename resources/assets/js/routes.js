@@ -2,12 +2,12 @@ import VueRouter from 'vue-router';
 
 let routes = [
     {
-        path: '/',
-        component: require('./views/UserHome')
+        path: '/request_form',
+        component: require('./views/RequestForm')
     },
     {
         path: '/archive',
-        component: require('./views/UserArchive')
+        component: require('./views/MessagesArchive')
     },
     {
         path: '/register',
@@ -18,8 +18,8 @@ let routes = [
         component: require('./views/Signin')
     },
     {
-        path: '/dashboard',
-        component: require('./views/Dashboard')
+        path: '/requests',
+        component: require('./views/Requests')
     }
 ];
 

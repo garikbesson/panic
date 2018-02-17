@@ -4,7 +4,10 @@ import router from './routes';
 export default {
     user: {
         authenticated: false,
-        profile: null
+        profile: {
+            name: '',
+            role: ''
+        }
     },
     check() {
         let token = localStorage.getItem('id_token')
@@ -48,9 +51,16 @@ export default {
             this.user.authenticated = true
             this.user.profile = response.data.data
 
-            router.push({
-                name: 'dashboard'
-            })
+            if (this.user.profile.role === 'Client') {
+                router.push({
+                    path: '/request_form'
+                })
+            } else {
+                router.push({
+                    path: '/requests'
+                })
+            }
+            
         }, response => {
             context.error = true
         })
@@ -58,10 +68,10 @@ export default {
     signout() {
         localStorage.removeItem('id_token')
         this.user.authenticated = false
-        this.user.profile = null
+        this.user.profile = {name: '', role: ''}
 
         router.push({
-            name: 'home'
+            path: '/'
         })
     }
 }
