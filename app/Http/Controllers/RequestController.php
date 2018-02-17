@@ -15,8 +15,14 @@ class RequestController extends Controller
         Request::create([
             'type' => $request->json('type'),
             'message' => $request->json('message'),
-            'status' => 'accepted',
+            'status' => 'Accepted',
             'author_id' => $author_id,
         ]);
+    }
+
+    public function get()
+    {
+        $requests = Request::all();
+        return response()->json($requests);
     }
 }

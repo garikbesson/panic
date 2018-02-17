@@ -19,10 +19,11 @@ class CreateRequestsTable extends Migration
             $table->string('message');
             $table->integer('author_id')->unsigned();
             $table->string('status');
-            $table->dateTime('answer_date')->nullable();
+            $table->dateTime('answered_at')->nullable();
             $table->string('answer')->nullable();
             $table->integer('answerer_id')->nullable()->unsigned();
             $table->timestamps();
+            
         });
         Schema::table('requests', function($table) {
             $table->foreign('author_id')->references('id')->on('users');
