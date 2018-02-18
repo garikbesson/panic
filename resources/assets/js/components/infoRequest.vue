@@ -29,59 +29,28 @@
             </div>
         </div>
     
-        <div class="field is-horizontal">
+        <div class="field is-horizontal"  v-if="request.answer !== null">
             <div class="field-label">
                 <label class="label" for="answer">Answer</label>
             </div>
             <div class="field-body">
-                <div class="field">
-                    <div class="control">
-                        <textarea class="textarea" id="answer" placeholder="Please type your answer" maxlength="150" v-model="request.answer"></textarea>
-                    </div>
-                </div>
+                <span>{{request.answer}}</span>
             </div>
         </div>
         <div class="field is-horizontal">
             <div class="field-label">
-                <label class="label" for="type">Choose request status</label>
+                <label class="label" for="type">Request status</label>
             </div>
             <div class="field-body">
-                    <div class="field">
-                        <div class="control">
-                            <div class="select">
-                                <select id="type" v-model="request.status">
-                                    <option>Accepted</option>
-                                    <option>In process</option>
-                                    <option>Done</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                <span>{{request.status}}</span>
             </div>
         </div>
-        <div class="field is-horizontal">
+        <div class="field is-horizontal" v-if="request.answered_at !== null">
             <div class="field-label">
-                <label class="label">Choose a answer date</label>
+                <label class="label">Answer date</label>
             </div>
             <div class="field-body">
-                <div class="field">
-                    <div class="control">
-                        <datepicker v-model="state.value" :disabled="state.disabled" :format="state.format"></datepicker>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label">
-            </div>
-            <div class="field-body">
-                <div class="field">
-                    <div class="control">
-                        <button class="button is-primary">
-                            Save answer
-                        </button>
-                    </div>
-                </div>
+                <span>{{request.answered_at}}</span>
             </div>
         </div>
     </form>

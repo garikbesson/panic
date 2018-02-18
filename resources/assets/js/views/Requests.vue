@@ -1,5 +1,4 @@
 <template>
-
     <table class="table is-fullwidth is-striped is-hoverable">
     <thead>
         <tr>
@@ -48,9 +47,3 @@ export default {
     }
 }   
 </script>
-
-<style>
-.row_request {
-    cursor: pointer;
-}
-</style>

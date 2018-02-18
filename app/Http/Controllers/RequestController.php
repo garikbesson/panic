@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Request;
 use App\Models\User;
-use App\Http\Requests\RequestFormRequest;
+use App\Http\Requests\RequestFromRequest;
 use App\Http\Requests\AnswerFormRequest;
 
 class RequestController extends Controller
 {
-    public function create(RequestFormRequest $request)
+    public function create(RequestFromRequest $request)
     {
         $author_id = User::select('id')->where('name', '=', $request->json('author'))->get()[0]->id;
 
