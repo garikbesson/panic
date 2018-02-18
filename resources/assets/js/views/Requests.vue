@@ -11,57 +11,41 @@
         <th>Date Answer</th>
         </tr>
     </thead>
-    <tbody>
-        <tr v-for="request in requests" :key="request.id">
-            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.id}}</td>
-            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.status}}</td>
-            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.message}}</td>
-            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.type}}</td>
-            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.created_at}}</td>
-            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.answered_at}}</td>
-            <span>Some form for work with request</span>
-        </tr>
-
-    </tbody>
+        <request v-for="request in requests" :key="request.id" :request=request></request>
     </table>
 </template>
 
 <script>
-import auth from '../auth.js';
+
+import request from '../components/Request';
 
 export default {
+    components: {
+        request
+    },
     data() {
             return {
-                requests: [],
-                role: auth.user.profile.role
+                requests: []
             }
-        },
-        methods: {
-            getRequests(event) {
-                Vue.http.get(
-                    'api/request'
-                ).then(response => {
-                    this.success = true;
-                    for (let request of response.data) {
-                        this.requests.push(request);
-                    }
-                }, response => {
-                    this.response = response.data
-                    this.error = true
-                })
-            },
-            showEditForm() {
-                if (this.operatorRole()) {
-                    alert('click');
+    },
+    methods: {
+        getRequests(event) {
+            Vue.http.get(
+                'api/request'
+            ).then(response => {
+                this.success = true;
+                for (let request of response.data) {
+                    this.requests.push(request);
                 }
-            },
-            operatorRole() {
-                return this.role === 'Operator';
-            }
-        },
-        mounted() {
-            this.getRequests();
+            }, response => {
+                this.response = response.data
+                this.error = true
+            })
         }
+    },
+    mounted() {
+        this.getRequests();
+    }
 }   
 </script>
 

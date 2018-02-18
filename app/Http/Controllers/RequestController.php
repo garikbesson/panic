@@ -22,7 +22,8 @@ class RequestController extends Controller
 
     public function get()
     {
-        $requests = Request::all();
+        $requests = Request::leftJoin('users', 'requests.author_id', '=', 'users.id')->select('requests.*', 'users.name')->get();
+        
         return response()->json($requests);
     }
 }
