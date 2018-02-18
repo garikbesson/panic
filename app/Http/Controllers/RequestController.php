@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Request;
 use App\Models\User;
 use App\Http\Requests\RequestFormRequest;
+use App\Http\Requests\AnswerFormRequest;
 
 class RequestController extends Controller
 {
@@ -25,5 +26,9 @@ class RequestController extends Controller
         $requests = Request::leftJoin('users', 'requests.author_id', '=', 'users.id')->select('requests.*', 'users.name')->get();
         
         return response()->json($requests);
+    }
+
+    public function answer(AnswerFormRequest $request) {
+        Request::where('id', $request->json('id'))->update(array('answer' => $request->json('answer'), 'answered_at' => $request->json('answered_at'), 'status' => $request->json('status')));
     }
 }

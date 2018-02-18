@@ -5,7 +5,15 @@
                 <label class="label" for="name">Author</label>
             </div>
             <div class="field-body">
-                <span id="name">"{{request.name}}"</span>
+                <span id="name">{{request.name}}</span>
+            </div>
+        </div>
+        <div class="field is-horizontal">
+            <div class="field-label">
+                <label class="label" for="name">Type</label>
+            </div>
+            <div class="field-body">
+                <span id="name">{{request.type}}</span>
             </div>
         </div>
         <div class="field is-horizontal">
@@ -36,7 +44,7 @@
                     <div class="field">
                         <div class="control">
                             <div class="select">
-                                <select id="type" v-model="request.type">
+                                <select id="type" v-model="request.status">
                                     <option>Accepted</option>
                                     <option>In process</option>
                                     <option>Done</option>
@@ -53,7 +61,7 @@
             <div class="field-body">
                 <div class="field">
                     <div class="control">
-                        <datepicker :value="state.value" :disabled="state.disabled"></datepicker>
+                        <datepicker v-model="state.value" :disabled="state.disabled" :format="state.format"></datepicker>
                     </div>
                 </div>
             </div>
@@ -76,6 +84,7 @@
 
 <script>
 import datepicker from 'vuejs-datepicker';
+import date from 'date-and-time';
 
 export default {
 
@@ -92,14 +101,38 @@ export default {
                 disabled: {
                     to: new Date(),
                     from: new Date(new Date().setDate(new Date().getDate()+1))
-                }
+                },
+                format: 'yyyy-MM-dd'
             }
         }
     },
 
     methods: {
         changeRequest() {
-
+            event.preventDefault();
+            let valueHours = this.state.value.getHours();
+            let valueDate = this.state.value.getDate();
+            let currentDate = this.state.disabled.to.getDate();
+            let differenceDate = valueDate - currentDate;
+        
+            if (differenceDate === 1) {
+                this.state.value.setHours(valueHours - 12);
+            }
+            
+            Vue.http.post(
+                'api/answer',
+                {
+                    id: this.request.id,
+                    answer: this.request.answer,
+                    answered_at: date.format(this.state.value, 'YYYY-MM-DD HH:mm:ss'),
+                    status: this.request.status
+                }
+            ).then(response => {
+                this.success = true
+            }, response => {
+                this.response = response.data
+                this.error = true
+            })
         }
     }
 }

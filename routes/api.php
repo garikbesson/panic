@@ -37,6 +37,9 @@ Route::group(['middleware' => ['api']], function () {
         Route::get('/request', [
             'uses' => 'RequestController@get',
         ]);
+        Route::post('/answer', [
+            'uses' => 'RequestController@answer',
+        ]);
     });
 
 });

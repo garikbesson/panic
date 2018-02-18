@@ -31,6 +31,10 @@ export default {
     },
     methods: {
         showEditForm() {
+            if (this.showForm) {
+                this.showForm = false;
+                return;
+            }
             if (this.operatorRole()) {
                 this.showForm = true;
             } 
