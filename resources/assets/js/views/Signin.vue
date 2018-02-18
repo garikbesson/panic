@@ -3,7 +3,7 @@
         <div class="alert alert-danger" v-if="error">
             <p>There was an error, unable to sign in with those credentials.</p>
         </div>
-        <form autocomplete="off" v-on:submit="signin">
+        <form autocomplete="on" v-on:submit="signin">
             <div class="field">
                 <label for="email">E-mail</label>
                 <div class="control">

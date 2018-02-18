@@ -55,7 +55,7 @@
                             <a>Request Form</a>
                         </router-link>
 
-                        <router-link tag="li" to="/archive">
+                        <router-link tag="li" to="/requests">
                             <a>Messages Archive</a>
                         </router-link>
                     </ul>

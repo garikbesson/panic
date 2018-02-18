@@ -13,22 +13,27 @@
     </thead>
     <tbody>
         <tr v-for="request in requests" :key="request.id">
-            <td>{{request.id}}</td>
-            <td>{{request.status}}</td>
-            <td>{{request.message}}</td>
-            <td>{{request.type}}</td>
-            <td>{{request.created_at}}</td>
-            <td>{{request.answered_at}}</td>
+            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.id}}</td>
+            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.status}}</td>
+            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.message}}</td>
+            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.type}}</td>
+            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.created_at}}</td>
+            <td v-bind:class="{row_request: operatorRole()}" v-on:click="showEditForm">{{request.answered_at}}</td>
+            <span>Some form for work with request</span>
         </tr>
+
     </tbody>
     </table>
 </template>
 
 <script>
+import auth from '../auth.js';
+
 export default {
     data() {
             return {
-                requests: []
+                requests: [],
+                role: auth.user.profile.role
             }
         },
         methods: {
@@ -44,6 +49,14 @@ export default {
                     this.response = response.data
                     this.error = true
                 })
+            },
+            showEditForm() {
+                if (this.operatorRole()) {
+                    alert('click');
+                }
+            },
+            operatorRole() {
+                return this.role === 'Operator';
             }
         },
         mounted() {
@@ -51,3 +64,9 @@ export default {
         }
 }   
 </script>
+
+<style>
+.row_request {
+    cursor: pointer;
+}
+</style>

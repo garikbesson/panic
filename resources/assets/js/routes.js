@@ -5,10 +5,10 @@ let routes = [
         path: '/request_form',
         component: require('./views/RequestForm')
     },
-    {
-        path: '/archive',
-        component: require('./views/MessagesArchive')
-    },
+    // {
+    //     path: '/archive',
+    //     component: require('./views/MessagesArchive')
+    // },
     {
         path: '/register',
         component: require('./views/Register')
