@@ -19462,6 +19462,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -19472,7 +19480,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         datepicker: __WEBPACK_IMPORTED_MODULE_0_vuejs_datepicker___default.a
     },
 
-    props: ['request'],
+    props: ['request', 'show'],
 
     data: function data() {
         return {
@@ -19483,7 +19491,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     from: new Date(new Date().setDate(new Date().getDate() + 1))
                 },
                 format: 'yyyy-MM-dd'
-            }
+            },
+            success: false,
+            error: false,
+            response: null
         };
     },
 
@@ -19501,14 +19512,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             if (differenceDate === 1) {
                 this.state.value.setHours(valueHours - 12);
             }
-
+            this.request.answered_at = __WEBPACK_IMPORTED_MODULE_1_date_and_time___default.a.format(this.state.value, 'YYYY-MM-DD HH:mm:ss');
             Vue.http.post('api/answer', {
                 id: this.request.id,
                 answer: this.request.answer,
-                answered_at: __WEBPACK_IMPORTED_MODULE_1_date_and_time___default.a.format(this.state.value, 'YYYY-MM-DD HH:mm:ss'),
+                answered_at: this.request.answered_at,
                 status: this.request.status
             }).then(function (response) {
                 _this.success = true;
+                _this.$emit('show', false);
             }, function (response) {
                 _this.response = response.data;
                 _this.error = true;
@@ -19609,167 +19621,187 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "form",
-    { attrs: { autocomplete: "off" }, on: { submit: _vm.changeRequest } },
-    [
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _vm._m(0),
-        _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("span", { attrs: { id: "name" } }, [
-            _vm._v(_vm._s(_vm.request.name))
+  return _c("div", [
+    _vm.error && !_vm.success
+      ? _c("div", { staticClass: "alert alert-danger" }, [
+          _c("p", [
+            _vm._v(
+              _vm._s(_vm.response.message) +
+                " " +
+                _vm._s(_vm.response.errors.answer[0])
+            )
           ])
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _vm._m(1),
-        _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("span", { attrs: { id: "name" } }, [
-            _vm._v(_vm._s(_vm.request.type))
-          ])
+      : _vm._e(),
+    _vm._v(" "),
+    _vm.success
+      ? _c("div", { staticClass: "alert alert-success" }, [
+          _c("p", [_vm._v("Answer sended.")])
         ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _vm._m(2),
-        _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("article", { staticClass: "message" }, [
-            _c("div", { staticClass: "message-body" }, [
-              _vm._v(
-                "\n                    " +
-                  _vm._s(_vm.request.message) +
-                  "\n                "
-              )
+      : _vm._e(),
+    _vm._v(" "),
+    _c(
+      "form",
+      { attrs: { autocomplete: "off" }, on: { submit: _vm.changeRequest } },
+      [
+        _c("div", { staticClass: "field is-horizontal" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("div", { staticClass: "field-body" }, [
+            _c("span", { attrs: { id: "name" } }, [
+              _vm._v(_vm._s(_vm.request.name))
             ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _vm._m(3),
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("div", { staticClass: "control" }, [
-              _c("textarea", {
-                directives: [
-                  {
-                    name: "model",
-                    rawName: "v-model",
-                    value: _vm.request.answer,
-                    expression: "request.answer"
-                  }
-                ],
-                staticClass: "textarea",
-                attrs: {
-                  id: "answer",
-                  placeholder: "Please type your answer",
-                  maxlength: "150"
-                },
-                domProps: { value: _vm.request.answer },
-                on: {
-                  input: function($event) {
-                    if ($event.target.composing) {
-                      return
-                    }
-                    _vm.$set(_vm.request, "answer", $event.target.value)
-                  }
-                }
-              })
+        _c("div", { staticClass: "field is-horizontal" }, [
+          _vm._m(1),
+          _vm._v(" "),
+          _c("div", { staticClass: "field-body" }, [
+            _c("span", { attrs: { id: "name" } }, [
+              _vm._v(_vm._s(_vm.request.type))
             ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _vm._m(4),
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("div", { staticClass: "field" }, [
-            _c("div", { staticClass: "control" }, [
-              _c("div", { staticClass: "select" }, [
-                _c(
-                  "select",
-                  {
-                    directives: [
-                      {
-                        name: "model",
-                        rawName: "v-model",
-                        value: _vm.request.status,
-                        expression: "request.status"
-                      }
-                    ],
-                    attrs: { id: "type" },
-                    on: {
-                      change: function($event) {
-                        var $$selectedVal = Array.prototype.filter
-                          .call($event.target.options, function(o) {
-                            return o.selected
-                          })
-                          .map(function(o) {
-                            var val = "_value" in o ? o._value : o.value
-                            return val
-                          })
-                        _vm.$set(
-                          _vm.request,
-                          "status",
-                          $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        )
-                      }
-                    }
-                  },
-                  [
-                    _c("option", [_vm._v("Accepted")]),
-                    _vm._v(" "),
-                    _c("option", [_vm._v("In process")]),
-                    _vm._v(" "),
-                    _c("option", [_vm._v("Done")])
-                  ]
+        _c("div", { staticClass: "field is-horizontal" }, [
+          _vm._m(2),
+          _vm._v(" "),
+          _c("div", { staticClass: "field-body" }, [
+            _c("article", { staticClass: "message" }, [
+              _c("div", { staticClass: "message-body" }, [
+                _vm._v(
+                  "\n                        " +
+                    _vm._s(_vm.request.message) +
+                    "\n                    "
                 )
               ])
             ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "field is-horizontal" }, [
-        _vm._m(5),
+        ]),
         _vm._v(" "),
-        _c("div", { staticClass: "field-body" }, [
-          _c("div", { staticClass: "field" }, [
-            _c(
-              "div",
-              { staticClass: "control" },
-              [
-                _c("datepicker", {
+        _c("div", { staticClass: "field is-horizontal" }, [
+          _vm._m(3),
+          _vm._v(" "),
+          _c("div", { staticClass: "field-body" }, [
+            _c("div", { staticClass: "field" }, [
+              _c("div", { staticClass: "control" }, [
+                _c("textarea", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.request.answer,
+                      expression: "request.answer"
+                    }
+                  ],
+                  staticClass: "textarea",
                   attrs: {
-                    disabled: _vm.state.disabled,
-                    format: _vm.state.format
+                    id: "answer",
+                    placeholder: "Please type your answer",
+                    maxlength: "150"
                   },
-                  model: {
-                    value: _vm.state.value,
-                    callback: function($$v) {
-                      _vm.$set(_vm.state, "value", $$v)
-                    },
-                    expression: "state.value"
+                  domProps: { value: _vm.request.answer },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.$set(_vm.request, "answer", $event.target.value)
+                    }
                   }
                 })
-              ],
-              1
-            )
+              ])
+            ])
           ])
-        ])
-      ]),
-      _vm._v(" "),
-      _vm._m(6)
-    ]
-  )
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field is-horizontal" }, [
+          _vm._m(4),
+          _vm._v(" "),
+          _c("div", { staticClass: "field-body" }, [
+            _c("div", { staticClass: "field" }, [
+              _c("div", { staticClass: "control" }, [
+                _c("div", { staticClass: "select" }, [
+                  _c(
+                    "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.request.status,
+                          expression: "request.status"
+                        }
+                      ],
+                      attrs: { id: "type" },
+                      on: {
+                        change: function($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function(o) {
+                              return o.selected
+                            })
+                            .map(function(o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.$set(
+                            _vm.request,
+                            "status",
+                            $event.target.multiple
+                              ? $$selectedVal
+                              : $$selectedVal[0]
+                          )
+                        }
+                      }
+                    },
+                    [
+                      _c("option", [_vm._v("Accepted")]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("In process")]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("Done")])
+                    ]
+                  )
+                ])
+              ])
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _c("div", { staticClass: "field is-horizontal" }, [
+          _vm._m(5),
+          _vm._v(" "),
+          _c("div", { staticClass: "field-body" }, [
+            _c("div", { staticClass: "field" }, [
+              _c(
+                "div",
+                { staticClass: "control" },
+                [
+                  _c("datepicker", {
+                    attrs: {
+                      disabled: _vm.state.disabled,
+                      format: _vm.state.format
+                    },
+                    model: {
+                      value: _vm.state.value,
+                      callback: function($$v) {
+                        _vm.$set(_vm.state, "value", $$v)
+                      },
+                      expression: "state.value"
+                    }
+                  })
+                ],
+                1
+              )
+            ])
+          ])
+        ]),
+        _vm._v(" "),
+        _vm._m(6)
+      ]
+    )
+  ])
 }
 var staticRenderFns = [
   function() {
@@ -19842,7 +19874,7 @@ var staticRenderFns = [
           _c("div", { staticClass: "control" }, [
             _c("button", { staticClass: "button is-primary" }, [
               _vm._v(
-                "\n                        Save answer\n                    "
+                "\n                            Save answer\n                        "
               )
             ])
           ])
@@ -20233,37 +20265,67 @@ var render = function() {
     _c("tr", [
       _c(
         "td",
-        { staticClass: "row_request", on: { click: _vm.showEditForm } },
+        _vm._b(
+          { staticClass: "row_request", on: { click: _vm.showEditForm } },
+          "td",
+          _vm.request.id,
+          false
+        ),
         [_vm._v(_vm._s(_vm.request.id))]
       ),
       _vm._v(" "),
       _c(
         "td",
-        { staticClass: "row_request", on: { click: _vm.showEditForm } },
+        _vm._b(
+          { staticClass: "row_request", on: { click: _vm.showEditForm } },
+          "td",
+          _vm.request.status,
+          false
+        ),
         [_vm._v(_vm._s(_vm.request.status))]
       ),
       _vm._v(" "),
       _c(
         "td",
-        { staticClass: "row_request", on: { click: _vm.showEditForm } },
+        _vm._b(
+          { staticClass: "row_request", on: { click: _vm.showEditForm } },
+          "td",
+          _vm.request.message,
+          false
+        ),
         [_vm._v(_vm._s(_vm.cutLongMessage()))]
       ),
       _vm._v(" "),
       _c(
         "td",
-        { staticClass: "row_request", on: { click: _vm.showEditForm } },
+        _vm._b(
+          { staticClass: "row_request", on: { click: _vm.showEditForm } },
+          "td",
+          _vm.request.type,
+          false
+        ),
         [_vm._v(_vm._s(_vm.request.type))]
       ),
       _vm._v(" "),
       _c(
         "td",
-        { staticClass: "row_request", on: { click: _vm.showEditForm } },
+        _vm._b(
+          { staticClass: "row_request", on: { click: _vm.showEditForm } },
+          "td",
+          _vm.request.created_at,
+          false
+        ),
         [_vm._v(_vm._s(_vm.request.created_at))]
       ),
       _vm._v(" "),
       _c(
         "td",
-        { staticClass: "row_request", on: { click: _vm.showEditForm } },
+        _vm._b(
+          { staticClass: "row_request", on: { click: _vm.showEditForm } },
+          "td",
+          _vm.request.answered_at,
+          false
+        ),
         [_vm._v(_vm._s(_vm.request.answered_at))]
       )
     ]),
@@ -20273,7 +20335,12 @@ var render = function() {
           _c(
             "td",
             { attrs: { colspan: "6" } },
-            [_c("answer-request", { attrs: { request: _vm.request } })],
+            [
+              _c("answer-request", {
+                attrs: { request: _vm.request, show: _vm.showForm },
+                on: { show: _vm.showEditForm }
+              })
+            ],
             1
           )
         ])
@@ -20284,7 +20351,12 @@ var render = function() {
           _c(
             "td",
             { attrs: { colspan: "6" } },
-            [_c("info-request", { attrs: { request: _vm.request } })],
+            [
+              _c("info-request", {
+                attrs: { request: _vm.request, show: _vm.showInfo },
+                on: { show: _vm.showEditForm }
+              })
+            ],
             1
           )
         ])
@@ -20460,7 +20532,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Signin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Signin_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Register_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Register_vue__);
-//
 //
 //
 //

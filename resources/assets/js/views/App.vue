@@ -65,7 +65,6 @@
         </section>
         <section class="section">
             <div class="container" >
-                <!-- <router-view></router-view> -->
                 <router-view name="register"></router-view>
                 <router-view name="signin"></router-view>
                 <router-view name="request_form" v-if="auth.user.authenticated"></router-view>

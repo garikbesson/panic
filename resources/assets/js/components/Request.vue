@@ -1,18 +1,18 @@
 <template>
   <tbody >
         <tr>
-            <td class="row_request" v-on:click="showEditForm">{{request.id}}</td>
-            <td class="row_request" v-on:click="showEditForm">{{request.status}}</td>
-            <td class="row_request" v-on:click="showEditForm">{{cutLongMessage()}}</td>
-            <td class="row_request" v-on:click="showEditForm">{{request.type}}</td>
-            <td class="row_request" v-on:click="showEditForm">{{request.created_at}}</td>
-            <td class="row_request" v-on:click="showEditForm">{{request.answered_at}}</td>
+            <td class="row_request" v-bind="request.id" v-on:click="showEditForm">{{request.id}}</td>
+            <td class="row_request" v-bind="request.status" v-on:click="showEditForm">{{request.status}}</td>
+            <td class="row_request" v-bind="request.message" v-on:click="showEditForm">{{cutLongMessage()}}</td>
+            <td class="row_request" v-bind="request.type" v-on:click="showEditForm">{{request.type}}</td>
+            <td class="row_request" v-bind="request.created_at" v-on:click="showEditForm">{{request.created_at}}</td>
+            <td class="row_request" v-bind="request.answered_at" v-on:click="showEditForm">{{request.answered_at}}</td>
         </tr>
         <tr v-if="showForm">
-            <td colspan="6"><answer-request :request=request></answer-request></td>
+            <td colspan="6"><answer-request v-on:show=showEditForm :request=request :show=showForm></answer-request></td>
         </tr>
         <tr v-if="showInfo">
-            <td colspan="6"><info-request :request=request></info-request></td>
+            <td colspan="6"><info-request v-on:show=showEditForm :request=request :show=showInfo></info-request></td>
         </tr>
     </tbody>
 </template>

@@ -1,4 +1,11 @@
 <template>
+<div>
+    <div class="alert alert-danger" v-if="error && !success">
+        <p>{{response.message}} {{response.errors.answer[0]}}</p>
+    </div>
+    <div class="alert alert-success" v-if="success">
+        <p>Answer sended.</p>
+    </div>
     <form autocomplete="off" v-on:submit="changeRequest">
         <div class="field is-horizontal">
             <div class="field-label">
@@ -85,6 +92,7 @@
             </div>
         </div>
     </form>
+</div>
 </template>
 
 <script>
@@ -97,7 +105,7 @@ export default {
         datepicker
     },
 
-    props: ['request'],
+    props: ['request', 'show'],
 
     data() {
         return {
@@ -108,7 +116,10 @@ export default {
                     from: new Date(new Date().setDate(new Date().getDate()+1))
                 },
                 format: 'yyyy-MM-dd'
-            }
+            },
+            success: false,
+            error: false,
+            response: null
         }
     },
 
@@ -123,17 +134,18 @@ export default {
             if (differenceDate === 1) {
                 this.state.value.setHours(valueHours - 12);
             }
-            
+            this.request.answered_at = date.format(this.state.value, 'YYYY-MM-DD HH:mm:ss');
             Vue.http.post(
                 'api/answer',
                 {
                     id: this.request.id,
                     answer: this.request.answer,
-                    answered_at: date.format(this.state.value, 'YYYY-MM-DD HH:mm:ss'),
+                    answered_at: this.request.answered_at,
                     status: this.request.status
                 }
             ).then(response => {
                 this.success = true;
+                this.$emit('show', false);
             }, response => {
                 this.response = response.data
                 this.error = true
