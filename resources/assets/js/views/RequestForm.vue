@@ -70,9 +70,6 @@ export default {
                 this.error = true
             })
         }
-    },
-    mounted() {
-        console.log(this.auth);
     }
 }
 </script>

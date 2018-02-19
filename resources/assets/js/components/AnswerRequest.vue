@@ -35,7 +35,6 @@
                 </article>
             </div>
         </div>
-    
         <div class="field is-horizontal">
             <div class="field-label">
                 <label class="label" for="answer">Answer</label>
