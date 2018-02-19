@@ -1,5 +1,5 @@
 <template>
-    <table class="table is-fullwidth is-striped is-hoverable">
+    <table class="table is-fullwidth is-striped is-hoverable" v-if="auth.user.authenticated">
     <thead>
         <tr>
         <th>Id</th>
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-
+import auth from '../auth';
 import request from '../components/Request';
 
 export default {
@@ -24,26 +24,50 @@ export default {
     },
     data() {
             return {
-                requests: []
+                requests: [],
+                auth: auth
             }
     },
     methods: {
-        getRequests(event) {
+        getRequestsById(id) {
             Vue.http.get(
-                'api/request'
-            ).then(response => {
-                this.success = true;
-                for (let request of response.data) {
-                    this.requests.push(request);
-                }
-            }, response => {
-                this.response = response.data
-                this.error = true
-            })
+                `api/request/${id}`
+            ).then(
+                response => this.successHandler(response),
+                response => this.errorHandler(response))
+        },
+        getRequests() {
+            Vue.http.get(
+                `api/request`
+            ).then(
+                response => this.successHandler(response),
+                response => this.errorHandler(response))
+        },
+        successHandler(response) {
+            this.success = true;
+            for (let request of response.data) {
+                this.requests.push(request);
+            }
+        },
+        errorHandler(response) {
+            this.response = response.data
+            this.error = true
+        },
+        fetchData() {
+            if (this.auth.user.profile.role === 'Client') {
+                this.getRequestsById(this.auth.user.profile.id);
+                return;
+            }
+            if (this.auth.user.profile.role === 'Operator') {
+                this.getRequests();
+                return;
+            } 
         }
     },
     mounted() {
-        this.getRequests();
+        this.$nextTick(function () {
+                this.fetchData();
+        })
     }
 }   
 </script>

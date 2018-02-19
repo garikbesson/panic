@@ -13,6 +13,7 @@ class UserController extends Controller
         $data['name'] = $request->user()->name;
         $data['email'] = $request->user()->email;
         $data['role'] = $request->user()->role;
+        $data['id'] = $request->user()->id;
         return response()->json([
             'data' => $data,
         ]);

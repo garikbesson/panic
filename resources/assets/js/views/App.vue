@@ -64,8 +64,12 @@
         </div>
         </section>
         <section class="section">
-            <div class="container">
-                <router-view></router-view>
+            <div class="container" >
+                <!-- <router-view></router-view> -->
+                <router-view name="register"></router-view>
+                <router-view name="signin"></router-view>
+                <router-view name="request_form" v-if="auth.user.authenticated"></router-view>
+                <router-view name="requests" v-if="auth.user.authenticated"></router-view>
                 <h1 class="title is-1"  v-if="!auth.user.authenticated">Please log in</h1>    
             </div>
         </section>

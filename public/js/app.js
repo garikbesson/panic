@@ -540,7 +540,8 @@ module.exports = function normalizeComponent (
         authenticated: false,
         profile: {
             name: '',
-            role: ''
+            role: '',
+            id: ''
         }
     },
     check: function check() {
@@ -597,7 +598,7 @@ module.exports = function normalizeComponent (
     signout: function signout() {
         localStorage.removeItem('id_token');
         this.user.authenticated = false;
-        this.user.profile = { name: '', role: '' };
+        this.user.profile = { name: '', role: '', id: '' };
 
         __WEBPACK_IMPORTED_MODULE_0__routes__["a" /* default */].push({
             path: '/'
@@ -3578,25 +3579,40 @@ if (inBrowser && window.Vue) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_router__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_RequestForm__ = __webpack_require__(50);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__views_RequestForm___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__views_RequestForm__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_Register__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__views_Register___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__views_Register__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Signin__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__views_Signin___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_3__views_Signin__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_Requests__ = __webpack_require__(57);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__views_Requests___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4__views_Requests__);
+
+
+
+
 
 
 var routes = [{
     path: '/request_form',
-    component: __webpack_require__(50)
-},
-// {
-//     path: '/archive',
-//     component: require('./views/MessagesArchive')
-// },
-{
+    components: {
+        request_form: __WEBPACK_IMPORTED_MODULE_1__views_RequestForm___default.a
+    }
+}, {
     path: '/register',
-    component: __webpack_require__(8)
+    components: {
+        register: __WEBPACK_IMPORTED_MODULE_2__views_Register___default.a
+    }
 }, {
     path: '/signin',
-    component: __webpack_require__(9)
+    components: {
+        signin: __WEBPACK_IMPORTED_MODULE_3__views_Signin___default.a
+    }
 }, {
     path: '/requests',
-    component: __webpack_require__(57)
+    components: {
+        requests: __WEBPACK_IMPORTED_MODULE_4__views_Requests___default.a
+    }
 }];
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_0_vue_router__["a" /* default */]({
@@ -18255,7 +18271,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             message: null,
             success: false,
             error: false,
-            response: null
+            response: null,
+            auth: __WEBPACK_IMPORTED_MODULE_0__auth__["a" /* default */]
         };
     },
 
@@ -18275,6 +18292,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 _this.error = true;
             });
         }
+    },
+    mounted: function mounted() {
+        console.log(this.auth);
     }
 });
 
@@ -18286,119 +18306,124 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "row" }, [
-      _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
-        _c("div", { staticClass: "panel panel-default" }, [
-          _c("div", { staticClass: "panel-heading" }, [
-            _vm.success
-              ? _c("span", [
-                  _vm._v("Thanks for your request! Please wait for the answer.")
-                ])
-              : _c("span", [_vm._v("Please fill in the request form")])
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "panel-body" }, [
-            _c(
-              "form",
-              {
-                attrs: { autocomplete: "off" },
-                on: { submit: _vm.sendRequest }
-              },
-              [
-                _c("div", { staticClass: "field" }, [
-                  _c(
-                    "label",
-                    { staticClass: "label", attrs: { for: "type" } },
-                    [_vm._v("Choose request type")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "control" }, [
-                    _c("div", { staticClass: "select" }, [
+  return _vm.auth.user.profile.role === "Client"
+    ? _c("div", { staticClass: "container" }, [
+        _c("div", { staticClass: "row" }, [
+          _c("div", { staticClass: "col-md-8 col-md-offset-2" }, [
+            _c("div", { staticClass: "panel panel-default" }, [
+              _c("div", { staticClass: "panel-heading" }, [
+                _vm.success
+                  ? _c("span", [
+                      _vm._v(
+                        "Thanks for your request! Please wait for the answer."
+                      )
+                    ])
+                  : _c("span", [_vm._v("Please fill in the request form")])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "panel-body" }, [
+                _c(
+                  "form",
+                  {
+                    attrs: { autocomplete: "off" },
+                    on: { submit: _vm.sendRequest }
+                  },
+                  [
+                    _c("div", { staticClass: "field" }, [
                       _c(
-                        "select",
-                        {
+                        "label",
+                        { staticClass: "label", attrs: { for: "type" } },
+                        [_vm._v("Choose request type")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "control" }, [
+                        _c("div", { staticClass: "select" }, [
+                          _c(
+                            "select",
+                            {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.type,
+                                  expression: "type"
+                                }
+                              ],
+                              attrs: { id: "type" },
+                              on: {
+                                change: function($event) {
+                                  var $$selectedVal = Array.prototype.filter
+                                    .call($event.target.options, function(o) {
+                                      return o.selected
+                                    })
+                                    .map(function(o) {
+                                      var val =
+                                        "_value" in o ? o._value : o.value
+                                      return val
+                                    })
+                                  _vm.type = $event.target.multiple
+                                    ? $$selectedVal
+                                    : $$selectedVal[0]
+                                }
+                              }
+                            },
+                            [
+                              _c("option", [_vm._v("General questions")]),
+                              _vm._v(" "),
+                              _c("option", [_vm._v("Technical questions")]),
+                              _vm._v(" "),
+                              _c("option", [_vm._v("Suggestions")])
+                            ]
+                          )
+                        ])
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "field" }, [
+                      _c(
+                        "label",
+                        { staticClass: "label", attrs: { for: "message" } },
+                        [_vm._v("Message")]
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "control" }, [
+                        _c("textarea", {
                           directives: [
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.type,
-                              expression: "type"
+                              value: _vm.message,
+                              expression: "message"
                             }
                           ],
-                          attrs: { id: "type" },
+                          staticClass: "textarea",
+                          attrs: {
+                            id: "message",
+                            placeholder: "Please type your message",
+                            maxlength: "300"
+                          },
+                          domProps: { value: _vm.message },
                           on: {
-                            change: function($event) {
-                              var $$selectedVal = Array.prototype.filter
-                                .call($event.target.options, function(o) {
-                                  return o.selected
-                                })
-                                .map(function(o) {
-                                  var val = "_value" in o ? o._value : o.value
-                                  return val
-                                })
-                              _vm.type = $event.target.multiple
-                                ? $$selectedVal
-                                : $$selectedVal[0]
+                            input: function($event) {
+                              if ($event.target.composing) {
+                                return
+                              }
+                              _vm.message = $event.target.value
                             }
                           }
-                        },
-                        [
-                          _c("option", [_vm._v("General questions")]),
-                          _vm._v(" "),
-                          _c("option", [_vm._v("Technical questions")]),
-                          _vm._v(" "),
-                          _c("option", [_vm._v("Suggestions")])
-                        ]
-                      )
-                    ])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "field" }, [
-                  _c(
-                    "label",
-                    { staticClass: "label", attrs: { for: "message" } },
-                    [_vm._v("Message")]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "control" }, [
-                    _c("textarea", {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.message,
-                          expression: "message"
-                        }
-                      ],
-                      staticClass: "textarea",
-                      attrs: {
-                        id: "message",
-                        placeholder: "Please type your message",
-                        maxlength: "300"
-                      },
-                      domProps: { value: _vm.message },
-                      on: {
-                        input: function($event) {
-                          if ($event.target.composing) {
-                            return
-                          }
-                          _vm.message = $event.target.value
-                        }
-                      }
-                    })
-                  ])
-                ]),
-                _vm._v(" "),
-                _vm._m(0)
-              ]
-            )
+                        })
+                      ])
+                    ]),
+                    _vm._v(" "),
+                    _vm._m(0)
+                  ]
+                )
+              ])
+            ])
           ])
         ])
       ])
-    ])
-  ])
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
@@ -18480,7 +18505,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 
-console.log('register');
+
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
@@ -18941,8 +18966,9 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Request__ = __webpack_require__(59);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_Request___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_Request__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__auth__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Request__ = __webpack_require__(59);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_Request___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_Request__);
 //
 //
 //
@@ -18965,52 +18991,80 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     components: {
-        request: __WEBPACK_IMPORTED_MODULE_0__components_Request___default.a
+        request: __WEBPACK_IMPORTED_MODULE_1__components_Request___default.a
     },
     data: function data() {
         return {
-            requests: []
+            requests: [],
+            auth: __WEBPACK_IMPORTED_MODULE_0__auth__["a" /* default */]
         };
     },
 
     methods: {
-        getRequests: function getRequests(event) {
+        getRequestsById: function getRequestsById(id) {
             var _this = this;
 
+            Vue.http.get('api/request/' + id).then(function (response) {
+                return _this.successHandler(response);
+            }, function (response) {
+                return _this.errorHandler(response);
+            });
+        },
+        getRequests: function getRequests() {
+            var _this2 = this;
+
             Vue.http.get('api/request').then(function (response) {
-                _this.success = true;
-                var _iteratorNormalCompletion = true;
-                var _didIteratorError = false;
-                var _iteratorError = undefined;
+                return _this2.successHandler(response);
+            }, function (response) {
+                return _this2.errorHandler(response);
+            });
+        },
+        successHandler: function successHandler(response) {
+            this.success = true;
+            var _iteratorNormalCompletion = true;
+            var _didIteratorError = false;
+            var _iteratorError = undefined;
 
+            try {
+                for (var _iterator = response.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+                    var _request = _step.value;
+
+                    this.requests.push(_request);
+                }
+            } catch (err) {
+                _didIteratorError = true;
+                _iteratorError = err;
+            } finally {
                 try {
-                    for (var _iterator = response.data[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-                        var _request = _step.value;
-
-                        _this.requests.push(_request);
+                    if (!_iteratorNormalCompletion && _iterator.return) {
+                        _iterator.return();
                     }
-                } catch (err) {
-                    _didIteratorError = true;
-                    _iteratorError = err;
                 } finally {
-                    try {
-                        if (!_iteratorNormalCompletion && _iterator.return) {
-                            _iterator.return();
-                        }
-                    } finally {
-                        if (_didIteratorError) {
-                            throw _iteratorError;
-                        }
+                    if (_didIteratorError) {
+                        throw _iteratorError;
                     }
                 }
-            }, function (response) {
-                _this.response = response.data;
-                _this.error = true;
-            });
+            }
+        },
+        errorHandler: function errorHandler(response) {
+            this.response = response.data;
+            this.error = true;
+        },
+        fetchData: function fetchData() {
+            if (this.auth.user.profile.role === 'Client') {
+                this.getRequestsById(this.auth.user.profile.id);
+                return;
+            }
+            if (this.auth.user.profile.role === 'Operator') {
+                this.getRequests();
+                return;
+            }
         }
     },
     mounted: function mounted() {
-        this.getRequests();
+        this.$nextTick(function () {
+            this.fetchData();
+        });
     }
 });
 
@@ -20255,18 +20309,23 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "table",
-    { staticClass: "table is-fullwidth is-striped is-hoverable" },
-    [
-      _vm._m(0),
-      _vm._v(" "),
-      _vm._l(_vm.requests, function(request) {
-        return _c("request", { key: request.id, attrs: { request: request } })
-      })
-    ],
-    2
-  )
+  return _vm.auth.user.authenticated
+    ? _c(
+        "table",
+        { staticClass: "table is-fullwidth is-striped is-hoverable" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._l(_vm.requests, function(request) {
+            return _c("request", {
+              key: request.id,
+              attrs: { request: request }
+            })
+          })
+        ],
+        2
+      )
+    : _vm._e()
 }
 var staticRenderFns = [
   function() {
@@ -20401,6 +20460,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Signin_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Signin_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Register_vue__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__Register_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2__Register_vue__);
+//
+//
+//
+//
 //
 //
 //
@@ -20609,7 +20672,17 @@ var render = function() {
         "div",
         { staticClass: "container" },
         [
-          _c("router-view"),
+          _c("router-view", { attrs: { name: "register" } }),
+          _vm._v(" "),
+          _c("router-view", { attrs: { name: "signin" } }),
+          _vm._v(" "),
+          _vm.auth.user.authenticated
+            ? _c("router-view", { attrs: { name: "request_form" } })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.auth.user.authenticated
+            ? _c("router-view", { attrs: { name: "requests" } })
+            : _vm._e(),
           _vm._v(" "),
           !_vm.auth.user.authenticated
             ? _c("h1", { staticClass: "title is-1" }, [_vm._v("Please log in")])

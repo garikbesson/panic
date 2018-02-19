@@ -1,25 +1,33 @@
 import VueRouter from 'vue-router';
+import RequestForm from './views/RequestForm';
+import Register from './views/Register';
+import Signin from './views/Signin';
+import Requests from './views/Requests';
 
 let routes = [
     {
         path: '/request_form',
-        component: require('./views/RequestForm')
+        components: {
+            request_form: RequestForm
+        }
     },
-    // {
-    //     path: '/archive',
-    //     component: require('./views/MessagesArchive')
-    // },
     {
         path: '/register',
-        component: require('./views/Register')
+        components: {
+            register: Register
+        }
     },
     {
         path: '/signin',
-        component: require('./views/Signin')
+        components: {
+            signin: Signin
+        }
     },
     {
         path: '/requests',
-        component: require('./views/Requests')
+        components: {
+            requests: Requests
+        }
     }
 ];
 

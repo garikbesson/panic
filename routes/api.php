@@ -28,6 +28,9 @@ Route::group(['middleware' => ['api']], function () {
         Route::post('/request', [
             'uses' => 'RequestController@create',
         ]);
+        Route::get('/request/{id}', [
+            'uses' => 'RequestController@getById',
+        ]);
         Route::get('/request', [
             'uses' => 'RequestController@get',
         ]);

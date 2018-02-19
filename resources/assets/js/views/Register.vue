@@ -48,7 +48,7 @@
 
 <script>
 import auth from '../auth';
-console.log('register');
+
 export default {
     data() {
         return {

@@ -1,6 +1,6 @@
 
 <template>
-    <div class="container">
+    <div class="container" v-if="auth.user.profile.role === 'Client'">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="panel panel-default">
@@ -49,7 +49,8 @@ export default {
             message: null,
             success: false,
             error: false,
-            response: null
+            response: null,
+            auth: auth
         }
     },
     methods: {
@@ -69,6 +70,9 @@ export default {
                 this.error = true
             })
         }
+    },
+    mounted() {
+        console.log(this.auth);
     }
 }
 </script>

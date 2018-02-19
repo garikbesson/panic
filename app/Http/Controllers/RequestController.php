@@ -21,6 +21,13 @@ class RequestController extends Controller
         ]);
     }
 
+    public function getById($id)
+    {
+        $requests = Request::leftJoin('users', 'requests.author_id', '=', 'users.id')->select('requests.*', 'users.name')->where('requests.author_id', '=', $id)->get();
+        
+        return response()->json($requests);
+    }
+    
     public function get()
     {
         $requests = Request::leftJoin('users', 'requests.author_id', '=', 'users.id')->select('requests.*', 'users.name')->get();

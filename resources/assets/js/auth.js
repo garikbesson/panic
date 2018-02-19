@@ -6,7 +6,8 @@ export default {
         authenticated: false,
         profile: {
             name: '',
-            role: ''
+            role: '',
+            id: ''
         }
     },
     check() {
@@ -49,7 +50,7 @@ export default {
             Vue.http.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('id_token')
 
             this.user.authenticated = true
-            this.user.profile = response.data.data
+            this.user.profile = response.data.data;
 
             if (this.user.profile.role === 'Client') {
                 router.push({
@@ -68,7 +69,7 @@ export default {
     signout() {
         localStorage.removeItem('id_token')
         this.user.authenticated = false
-        this.user.profile = {name: '', role: ''}
+        this.user.profile = {name: '', role: '', id: ''}
 
         router.push({
             path: '/'
